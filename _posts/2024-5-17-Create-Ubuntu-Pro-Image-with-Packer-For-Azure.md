@@ -254,16 +254,19 @@ $imageName = 'ubuntupro22.04'
 $resourceGroup = 'myResourceGroup'
 
 $params = @{
-GalleryName       = $Name
+GalleryName       = $Name
 ResourceGroupName = $resourceGroup
-Location          = $location
-Name              = $imageName
-OsState           = 'generalized'
-OsType            = 'Linux'
-Publisher         = 'canonical'
-Offer             = '0001-com-ubuntu-pro-jammy'
-Sku               = 'pro-22_04-lts'
- 
+Location          = $location
+Name              = $imageName
+OsState           = 'generalized'
+OsType            = 'Linux'
+Publisher         = 'canonical'
+Offer             = '0001-com-ubuntu-pro-jammy'
+Sku               = 'pro-22_04-lts'
+PurchasePlanName    = 'pro-22_04-lts'
+PurchasePlanProduct = '0001-com-ubuntu-pro-jammy'
+PurchasePlanPublisher = 'canonical'
+ 
 }
 
 New-AzGalleryImageDefinition @params
@@ -347,10 +350,10 @@ SharedImageGalleryReplicatedRegions: eastus
 **Create a VM based on the Image:** \
 The image was uploaded by Packer into Azure Compute Gallery.\
 Let’s create a VM based on it.\
-Note: "Creating a virtual machine from a Marketplace image or a custom image sourced from a Marketplace image requires Plan information in the request.”
+
 
 ```console
-$ az vm create --resource-group myResourceGroup --name testPackerVM333 --admin-username azureuser --image "/subscriptions/xxxxx/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/packerImageGallery/images/ubuntupro22.04/versions/0.1.23" --generate-ssh-keys --plan-publisher canonical --plan-name pro-22_04-lts --plan-product 0001-com-ubuntu-pro-jammy
+$ az vm create --resource-group myResourceGroup --name testPackerVM333 --admin-username azureuser --image "/subscriptions/xxxxx/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/packerImageGallery/images/ubuntupro22.04/versions/0.1.23" --generate-ssh-keys
 
 {
 "fqdns": "",
