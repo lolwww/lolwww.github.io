@@ -94,7 +94,7 @@ ubuntupro.json:
 Finally launch Packer build:
 ```console
 $ packer plugins install github.com/hashicorp/azure
-    Installed plugin github.com/hashicorp/azure v2.1.3 in "/Users/alex/.config/packer/plugins/github.com/hashicorp/azure/packer-plugin-azure_v2.1.3_x5.0_darwin_arm64"
+    Installed plugin github.com/hashicorp/azure v2.1.3 in "/Users/lolwww/.config/packer/plugins/github.com/hashicorp/azure/packer-plugin-azure_v2.1.3_x5.0_darwin_arm64"
 
 $ sudo packer build ubuntupro.json
     ....
