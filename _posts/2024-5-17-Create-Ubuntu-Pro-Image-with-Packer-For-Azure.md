@@ -389,9 +389,8 @@ Account: xxxxx
 Subscription: xxxxx
 Valid until: Fri Dec 31 00:00:00 9999 UTC
 Technical support level: essential
-
-After that you can enable pro services as needed.
 ```
+After that you can enable pro services as needed.
 
 ## **Conclusion**<a id="conclusion"></a>
 
