@@ -3,9 +3,6 @@ layout: post
 title: How to create a golden image of Ubuntu Pro with Packer for Azure
 ---
 
-
-**How to create a golden image of Ubuntu Pro with Packer for Azure**
-
 Based on the [tutorial](https://learn.microsoft.com/en-us/azure/virtual-machines/linux/build-image-with-packer) from Microsoft.
 
 Note: Packer version **1.8.1** or above is needed for creating images
