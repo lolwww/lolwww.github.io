@@ -222,8 +222,8 @@ usg          yes    enabled  Security compliance and audit tools
 For a list of all Ubuntu Pro services, run 'pro status --all'
 Enable services with: pro enable <service>
 
-Account: 97d4cae1-ab73-40f3-a658-57fa258b9b4d
-Subscription: 97d4cae1-ab73-40f3-a658-57fa258b9b4d
+Account: xxxxx
+Subscription: xxxxx
 Valid until: Fri Dec 31 00:00:00 9999 UTC
 Technical support level: essential
 ```
