@@ -151,7 +151,7 @@ $ az image show --name myPackerImage --resource-group myresourcegroup
     }
 ```
 
-**Create a VM based on the Image:** \
+**Create a VM based on the Image** \
 The image was uploaded by Packer into Azure Images.\
 Let’s create a VM based on it.\
 Note: "Creating a virtual machine from a Marketplace image or a custom image sourced from a Marketplace image requires Plan information in the request.”
@@ -348,8 +348,8 @@ SharedImageGalleryReplicatedRegions: eastus
 ```
 
 **Create a VM based on the Image:** \
-The image was uploaded by Packer into Azure Compute Gallery.\
-Let’s create a VM based on it.\
+The image was uploaded by Packer to Azure Compute Gallery.\
+Let’s create a VM based on it.
 
 Note: "Creating a virtual machine from a Marketplace image or a custom image sourced from a Marketplace image requires Plan information in the request.”
 
@@ -394,4 +394,4 @@ After that you can enable pro services as needed.
 
 ## **Conclusion**<a id="conclusion"></a>
 
-We have learned how to build Ubuntu pro 22.04 based golden image with Packer and upload it to Azure Images and Azure Compute Gallery, created VMs from the uploaded images.
+We have learned how to build Ubuntu pro 22.04 based golden image with Packer and upload it to Azure Images and Azure Compute Gallery, then created VMs from the uploaded images.
