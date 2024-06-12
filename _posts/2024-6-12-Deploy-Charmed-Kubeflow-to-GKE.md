@@ -3,6 +3,8 @@ layout: post
 title: How to Deploy Charmed Kubeflow to GKE
 ---
 
+Welcome to the Deploy Charmed Kubeflow to GKE guide. This how-to guide will take you through the steps of deploying Kubeflow to an Google Kubernetes Engine (GKE) cluster. From an architectural point of view, we will spin up an GKE cluster on Google Gloud using gcloud on our local machine. Then with kubectl and juju still on our local machine, we will interact with the cluster to deploy Kubeflow there.
+
 **Requirements**
 
 - Local machine with Ubuntu 22.04 or later
