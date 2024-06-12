@@ -58,7 +58,7 @@ kubectl config rename-context gke_test-project_us-central1-a_test-cluster gke-cl
 ```
 
 3. Bootstrap juju controller to GKE cluster
-(we are using /snap/juju/current/bin/juju as a workaround for bug temporarily)
+(we are using /snap/juju/current/bin/juju as a workaround for [bug](https://bugs.launchpad.net/juju/+bug/2007575) temporarily)
 ```
 /snap/juju/current/bin/juju bootstrap gke-cluster
 ```
