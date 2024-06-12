@@ -25,7 +25,7 @@ tar -xf google-cloud-cli-462.0.1-linux-x86_64.tar.gz
 gcloud components install gke-gcloud-auth-plugin
 ```
 
-3. Install Juju and kubectl (Juju 3.4.3 or later)
+3. Install Juju and kubectl (Juju 3.4.3 is used at the moment I am writing this tutorial)
 ```
 sudo snap install kubectl --classic
 sudo snap install juju
