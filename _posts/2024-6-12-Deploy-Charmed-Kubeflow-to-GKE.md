@@ -3,7 +3,7 @@ layout: post
 title: How to Deploy Charmed Kubeflow to GKE
 ---
 
-Welcome to the Deploy Charmed Kubeflow to GKE guide. This how-to guide will take you through the steps of deploying Kubeflow to an Google Kubernetes Engine (GKE) cluster. From an architectural point of view, we will spin up an GKE cluster on Google Gloud using gcloud on our local machine. Then with kubectl and juju still on our local machine, we will interact with the cluster to deploy Kubeflow there.
+Welcome to the Deploy Charmed Kubeflow to GKE guide. This how-to guide will take you through the steps of deploying Kubeflow to an [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) cluster. From an architectural point of view, we will spin up an GKE cluster on Google Gloud using gcloud on our local machine. Then with kubectl and juju still on our local machine, we will interact with the cluster to deploy Kubeflow there.
 
 **Requirements**
 
@@ -13,7 +13,7 @@ Welcome to the Deploy Charmed Kubeflow to GKE guide. This how-to guide will take
 **Prerequisites**
 
 1. Install gcloud tool on your local machine.
-Refer to Google Cloud documentation for the latest version of gloud.
+Refer to [Google Cloud documentation](https://cloud.google.com/sdk/docs/install) for the latest version of gloud.
 ```
 curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-462.0.1-linux-x86_64.tar.gz
 tar -xf google-cloud-cli-462.0.1-linux-x86_64.tar.gz
@@ -45,7 +45,7 @@ gcloud --project=${PROJECT_ID} services enable \
 **Deploy GKE cluster**
 
 1.  Deploy GKE cluster.
-Kubeflow documentation suggests at least 4 cores, 32G RAM and 50G of disk for the cluster machines.
+[Kubeflow documentation](https://charmed-kubeflow.io/docs/get-started-with-charmed-kubeflow) suggests at least 4 cores, 32G RAM and 50G of disk for the cluster machines.
 So we are going to use n1-standard-16 machine type for our cluster, however n1-standard-8 migh be enough for testing purposes.
 ```
 gcloud container clusters create --binauthz-evaluation-mode=PROJECT_SINGLETON_POLICY_ENFORCE --zone us-central1-a --machine-type n1-standard-16 --disk-size=100G test-cluster
