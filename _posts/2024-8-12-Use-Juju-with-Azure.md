@@ -32,13 +32,11 @@ export location=eastus
 export role=jujuclitest
 export identityname=jujuclitest
 export subscription=xxxxx
-```
 
-```
-1) az group create --name "${group}" --location "${location}"
-2) az identity create --resource-group "${group}" --name "${identityname}"
-3) mid=$(az identity show --resource-group "${group}" --name "${identityname}" --query principalId --output tsv)
-4) az role definition create --role-definition "{
+az group create --name "${group}" --location "${location}"
+az identity create --resource-group "${group}" --name "${identityname}"
+mid=$(az identity show --resource-group "${group}" --name "${identityname}" --query principalId --output tsv)
+az role definition create --role-definition "{
   	\"Name\": \"${role}\",
   	\"Description\": \"Role definition for a Juju controller\",
   	\"Actions\": [
@@ -53,7 +51,7 @@ export subscription=xxxxx
         	\"/subscriptions/${subscription}\"
   	]
   }"
-5) az role assignment create --assignee-object-id "${mid}" --assignee-principal-type "ServicePrincipal" --role "${role}" --scope "/subscriptions/${subscription}"
+az role assignment create --assignee-object-id "${mid}" --assignee-principal-type "ServicePrincipal" --role "${role}" --scope "/subscriptions/${subscription}"
 ```
 Everything is according to Juju documentation so far.
 Now let's try to use this identity to actually bootstrap a controller and deploy something.
