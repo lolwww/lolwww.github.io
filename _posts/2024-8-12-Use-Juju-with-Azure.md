@@ -56,7 +56,6 @@ export subscription=xxxxx
 5) az role assignment create --assignee-object-id "${mid}" --assignee-principal-type "ServicePrincipal" --role "${role}" --scope "/subscriptions/${subscription}"
 ```
 Everything is according to Juju documentation so far.
-
 Now let's try to use this identity to actually bootstrap a controller and deploy something.
 
 **Option 1 - Managed Identity with managed-identity credentials**
@@ -85,8 +84,7 @@ Try to bootstrap the controller
 $ juju bootstrap azure --config resource-group-name=jujuclitest mycontroller
 ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
 ```
-
-Apparently there is a 
+Seems like suggested way doesn't work.
 
 
 
