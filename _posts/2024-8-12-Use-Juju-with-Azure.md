@@ -28,7 +28,7 @@ Let's start from scratch as we don't have any resource groups, roles etc.
 
 ```
 export group=jujuclitest
-export location=useast
+export location=eastus
 export role=jujuclitest
 export identityname=jujuclitest
 export subscription=xxxxx
@@ -70,7 +70,7 @@ credentials:
  azure:
   azure-option-one:
    auth-type: managed-identity
-   managed-identity-path: tt/jujuclitest
+   managed-identity-path: jujuclitest/jujuclitest
    subscription-id: xxx
 ```
 
@@ -84,26 +84,6 @@ Try to bootstrap the controller
 ```
 $ juju bootstrap azure --config resource-group-name=jujuclitest mycontroller
 ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
-GET http://169.254.169.254/metadata/identity/oauth2/token
---------------------------------------------------------------------------------
-RESPONSE 400 Bad Request
---------------------------------------------------------------------------------
-{
-  "error": "invalid_request",
-  "error_description": "Identity not found"
-}
---------------------------------------------------------------------------------
-To troubleshoot, visit https://aka.ms/azsdk/go/identity/troubleshoot#managed-id
-GET http://169.254.169.254/metadata/identity/oauth2/token
---------------------------------------------------------------------------------
-RESPONSE 400 Bad Request
---------------------------------------------------------------------------------
-{
-  "error": "invalid_request",
-  "error_description": "Identity not found"
-}
---------------------------------------------------------------------------------
-To troubleshoot, visit https://aka.ms/azsdk/go/identity/troubleshoot#managed-id
 ```
 
 Apparently there is a 
