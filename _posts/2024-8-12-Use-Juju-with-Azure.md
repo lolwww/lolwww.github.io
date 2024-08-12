@@ -74,11 +74,13 @@ credentials:
    subscription-id: xxx
 ```
 
+Add the credential
 ```
 sudo -u ubuntu juju add-credential -f /home/ubuntu/credentials.yaml --client azure
 Credential "azure-option-one" added locally for cloud "azure".
 ```
 
+Try to bootstrap the controller
 ```
 $ juju bootstrap azure --config resource-group-name=jujuclitest mycontroller
 ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
