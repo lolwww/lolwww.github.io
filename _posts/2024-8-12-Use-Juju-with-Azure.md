@@ -15,7 +15,7 @@ As Juju documentation describes, there are 3 ways to make Juju work with Azure
    
 3. **service-principal-secret credentials, Managed Identity created on bootstrap** (similar to #2 in the end, but not exactly during the process).
 
-4. Undocumented Entra ID app registrations way (arguably most commonly used).
+4. **Undocumented Entra ID app registrations way** (arguably most commonly used).
 
 In this guide I will try to attempt to document all 3 ways and see which one works better.
 
