@@ -138,4 +138,28 @@ ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential
 ```
 Doesn't seem to work either.
 
+Let's see if we can make it work with role 'Owner' instead of documented way.
+
+```
+mid=$(az identity show --resource-group "${group}" --name "${identityname}" --query principalId --output tsv)
+az role assignment create --assignee-object-id "${mid}" --scope "/subscriptions/${subscription}" --role "Owner"
+mid=$(az identity show --resource-group "${group}" --name "${identityname2}" --query principalId --output tsv)
+az role assignment create --assignee-object-id "${mid}" --scope "/subscriptions/${subscription}/resourcegroups/${group}" --role "Owner"
+
+$ juju bootstrap azure --config resource-group-name=jujuclitest --credential azure-option-one mycontroller
+ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
+$ juju bootstrap azure --config resource-group-name=jujuclitest --credential azure-option-two mycontroller
+ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
+```
+
+How about we add ServicePrincipal type?
+```
+az role assignment create --assignee-object-id "${mid}" --assignee-principal-type "ServicePrincipal" --scope "/subscriptions/${subscription}" --role "Owner"
+az role assignment create --assignee-object-id "${mid}" --assignee-principal-type "ServicePrincipal" --scope "/subscriptions/${subscription}/resourcegroups/${group}" --role "Owner"
+
+$ juju bootstrap azure --config resource-group-name=jujuclitest --credential azure-option-one mycontroller
+ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
+$ juju bootstrap azure --config resource-group-name=jujuclitest --credential azure-option-two mycontroller
+ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
+```
 
