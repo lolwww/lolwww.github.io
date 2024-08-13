@@ -20,7 +20,7 @@ Limitations:
 
 And one other way that I know of:
 
-4. **Undocumented Entra ID app registrations way**.
+ **Undocumented Entra ID app registrations way**.
 
 I will try to attempt to document all ways and see which one works better.
 
