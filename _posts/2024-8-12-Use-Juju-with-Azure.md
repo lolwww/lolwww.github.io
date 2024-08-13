@@ -163,3 +163,18 @@ $ juju bootstrap azure --config resource-group-name=jujuclitest --credential azu
 ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
 ```
 
+No luck either.
+Let's look at bootstrap with --verbose and --debug.
+One particular line that I don't like seeing :
+```
+11:11:39 DEBUG juju.cmd.juju.commands bootstrap.go:1418 authenticating with region "" and credential "azure-option-one" ()
+```
+Seems like we need to give it the region before trying the bootstrap.
+```
+sudo -u ubuntu juju default-region azure eastus
+```
+$ juju bootstrap azure --config resource-group-name=jujuclitest --credential azure-option-one mycontroller
+ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
+```
+
+no luck either
