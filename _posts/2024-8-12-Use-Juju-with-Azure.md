@@ -11,9 +11,12 @@ As Juju documentation describes, there are 3 ways to make Juju work with Azure
 (for it to be able create, delete, modify resources on Azure):
 
 1. **pre-created [Managed Identity](https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview) with managed-identity credentials** (recommended by Juju team, although only available from Juju 3.6-beta).
+Limitations: 
+- juju cli should be on Azure cloud to be able to reach cloud metadata endpoint.
+- managed identity and the Juju resources are on the same subscription
 2. **pre-created Managed Identity + service-principal-secret credentials**
    
-3. **service-principal-secret credentials, Managed Identity created on bootstrap** (similar to #2 in the end, but not exactly during the process).
+3. **service-principal-secret credentials on bootstrap, then Managed Identity created on and used by Juju** 
 
 4. **Undocumented Entra ID app registrations way** (arguably most commonly used).
 
@@ -29,8 +32,8 @@ Let's start from scratch as we don't have any resource groups, roles etc.
 ```
 export group=jujuclitest
 export location=eastus
-export role=jujuclitest
-export identityname=jujuclitest
+export role=jujuclitestrole
+export identityname=jujuclitestidentity
 export subscription=xxxxx
 
 az group create --name "${group}" --location "${location}"
@@ -67,7 +70,7 @@ credentials:
  azure:
   azure-option-one:
    auth-type: managed-identity
-   managed-identity-path: jujuclitest/jujuclitest
+   managed-identity-path: jujuclitest/jujuclitestidentity
    subscription-id: xxx
 ```
 
@@ -82,8 +85,34 @@ Try to bootstrap the controller
 $ juju bootstrap azure --config resource-group-name=jujuclitest mycontroller
 ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
 ```
-Seems like suggested way doesn't work.
+Doesn't seem to work.
+Let's try the same with resource scoped managed identity.
+(I deleted the previous one and created resource a new one with RG).
 
+```
+az role definition create --role-definition "{
+  	\"Name\": \"${role}\",
+  	\"Description\": \"Role definition for a Juju controller\",
+  	\"Actions\": [
+            	\"Microsoft.Compute/*\",
+            	\"Microsoft.KeyVault/*\",
+            	\"Microsoft.Network/*\",
+            	\"Microsoft.Resources/*\",
+            	\"Microsoft.Storage/*\",
+            	\"Microsoft.ManagedIdentity/userAssignedIdentities/*\"
+  	],
+  	\"AssignableScopes\": [
+        	\"/subscriptions/${subscription}/resourcegroups/${group}\"
+  	]
+  }"
+az role assignment create --assignee-object-id "${mid}" --assignee-principal-type "ServicePrincipal" --role "${role}" --scope "/subscriptions/${subscription}/resourcegroups/${group}"
+```
 
+Try to bootstrap the controller
+```
+$ juju bootstrap azure --config resource-group-name=jujuclitest mycontroller
+ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
+```
+Doesn't seem to work either.
 
 
