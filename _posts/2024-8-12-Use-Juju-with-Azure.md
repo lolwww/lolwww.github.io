@@ -19,6 +19,7 @@ Limitations:
 3. **service-principal-secret credentials on bootstrap, then Managed Identity created on and used by Juju** 
 
 And one other way that I know of:
+
 4. **Undocumented Entra ID app registrations way**.
 
 I will try to attempt to document all ways and see which one works better.
@@ -29,15 +30,20 @@ For Options 1 and 2 both we will be required to create Managed Identity first, s
 
 We will try to follow the suggested documentation there and use Azure cli(Bash).
 Let's start from scratch as we don't have any resource groups, roles etc.
+We'll create 2 identities - subscription scoped and resource group scoped to test both.
 
 ```
 export group=jujuclitest
 export location=eastus
 export role=jujuclitestrole
+export role2=jujuclitestrole2
 export identityname=jujuclitestidentity
+export identityname2=jujuclitestidentity2
 export subscription=xxxxx
 
 az group create --name "${group}" --location "${location}"
+
+One subscription scope identity, role and role assignment:
 az identity create --resource-group "${group}" --name "${identityname}"
 mid=$(az identity show --resource-group "${group}" --name "${identityname}" --query principalId --output tsv)
 az role definition create --role-definition "{
@@ -56,9 +62,30 @@ az role definition create --role-definition "{
   	]
   }"
 az role assignment create --assignee-object-id "${mid}" --assignee-principal-type "ServicePrincipal" --role "${role}" --scope "/subscriptions/${subscription}"
+
+and second resource group scope identity, role and role assignment:
+az identity create --resource-group "${group}" --name "${identityname2}"
+mid=$(az identity show --resource-group "${group}" --name "${identityname2}" --query principalId --output tsv)
+az role definition create --role-definition "{
+  	\"Name\": \"${role2}\",
+  	\"Description\": \"Role definition for a Juju controller\",
+  	\"Actions\": [
+            	\"Microsoft.Compute/*\",
+            	\"Microsoft.KeyVault/*\",
+            	\"Microsoft.Network/*\",
+            	\"Microsoft.Resources/*\",
+            	\"Microsoft.Storage/*\",
+            	\"Microsoft.ManagedIdentity/userAssignedIdentities/*\"
+  	],
+  	\"AssignableScopes\": [
+        	\"/subscriptions/${subscription}/resourcegroups/${group}\"
+  	]
+  }"
+az role assignment create --assignee-object-id "${mid}" --assignee-principal-type "ServicePrincipal" --role "${role2}" --scope "/subscriptions/${subscription}/resourcegroups/${group}"
+
 ```
 Everything is according to Juju documentation so far.
-Now let's try to use this identity to actually bootstrap a controller and deploy something.
+Now let's try to use our identities to actually bootstrap a controller and deploy something.
 
 **Option 1 - Managed Identity with managed-identity credentials**
 
@@ -87,33 +114,26 @@ $ juju bootstrap azure --config resource-group-name=jujuclitest mycontroller
 ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
 ```
 Doesn't seem to work.
-
 Let's try the same with resource scoped managed identity.
-
-(I deleted the previous one and created resource a new one with RG).
-
 ```
-az role definition create --role-definition "{
-  	\"Name\": \"${role}\",
-  	\"Description\": \"Role definition for a Juju controller\",
-  	\"Actions\": [
-            	\"Microsoft.Compute/*\",
-            	\"Microsoft.KeyVault/*\",
-            	\"Microsoft.Network/*\",
-            	\"Microsoft.Resources/*\",
-            	\"Microsoft.Storage/*\",
-            	\"Microsoft.ManagedIdentity/userAssignedIdentities/*\"
-  	],
-  	\"AssignableScopes\": [
-        	\"/subscriptions/${subscription}/resourcegroups/${group}\"
-  	]
-  }"
-az role assignment create --assignee-object-id "${mid}" --assignee-principal-type "ServicePrincipal" --role "${role}" --scope "/subscriptions/${subscription}/resourcegroups/${group}"
+$ cat credentials2.yaml
+credentials:
+ azure:
+  azure-option-two:
+   auth-type: managed-identity
+   managed-identity-path: jujuclitest/jujuclitestidentity2
+   subscription-id: xxx
+```
+
+Add the credential
+```
+sudo -u ubuntu juju add-credential -f /home/ubuntu/credentials2.yaml --client azure
+Credential "azure-option-two" added locally for cloud "azure".
 ```
 
 Try to bootstrap the controller
 ```
-$ juju bootstrap azure --config resource-group-name=jujuclitest mycontroller
+$ juju bootstrap azure --config resource-group-name=jujuclitest --credential azure-option-two mycontroller
 ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
 ```
 Doesn't seem to work either.
