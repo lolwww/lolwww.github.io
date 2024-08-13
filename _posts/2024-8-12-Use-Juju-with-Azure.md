@@ -86,7 +86,9 @@ $ juju bootstrap azure --config resource-group-name=jujuclitest mycontroller
 ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
 ```
 Doesn't seem to work.
+
 Let's try the same with resource scoped managed identity.
+
 (I deleted the previous one and created resource a new one with RG).
 
 ```
