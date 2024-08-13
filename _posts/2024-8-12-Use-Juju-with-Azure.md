@@ -173,6 +173,8 @@ Seems like we need to give it the region before trying the bootstrap.
 ```
 sudo -u ubuntu juju default-region azure eastus
 ```
+Try again:
+```
 $ juju bootstrap azure --config resource-group-name=jujuclitest --credential azure-option-one mycontroller
 ERROR ManagedIdentityCredential authentication failed. ManagedIdentityCredential authentication failed. the requested identity isn't assigned to this resource
 ```
