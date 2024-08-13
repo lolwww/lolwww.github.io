@@ -18,9 +18,10 @@ Limitations:
    
 3. **service-principal-secret credentials on bootstrap, then Managed Identity created on and used by Juju** 
 
-4. **Undocumented Entra ID app registrations way** (arguably most commonly used).
+And one other way that I know of:
+4. **Undocumented Entra ID app registrations way**.
 
-In this guide I will try to attempt to document all 3 ways and see which one works better.
+In this guide I will try to attempt to document all ways and see which one works better.
 
 For Options 1 and 2 both we will be required to create Managed Identity first, so let's start with this part.
 
