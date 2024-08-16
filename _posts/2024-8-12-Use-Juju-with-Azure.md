@@ -3,7 +3,7 @@ layout: post
 title: How to use Juju with Microsoft Azure
 ---
 
-Based on the Juju documentation and personal experience.
+Based on the Juju [documentation](https://juju.is/docs/juju/microsoft-azure) and personal experience.
 
 Juju version used is 3.6-beta2.
 
