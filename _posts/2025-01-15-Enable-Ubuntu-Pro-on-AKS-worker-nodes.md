@@ -20,18 +20,20 @@ Which presents us a challenge - of course we can run $pro attach on the existing
 but what if there is an autoscaling event? New hosts would not be subscribed to Pro automatically (nor detached from Pro on removal).
 
 Well, it's possible to achieve that with kubernetes DaemonSet.
+
 [pro-aks-installer](https://github.com/lolwww/pro-aks-installer) repository has the necessary files to get started.
 
 First, let's have a look at the [proconfigmap.yaml](https://github.com/lolwww/pro-aks-installer/blob/master/k8s/proconfigmap.yaml) in k8s folder.
-It defines install.sh and cleanup.sh scripts - first one installs ubuntu-advantage-tools and attaches the host to Pro using a token.
+It defines **install.sh** and **cleanup.sh** scripts - first one installs ubuntu-advantage-tools and attaches the host to Pro using a token.
 Second one does the detach. It will be executed on removal of the host (for example scale-down of VMSS).
 
 Second file, [daemonset.yaml](https://github.com/lolwww/pro-aks-installer/blob/master/k8s/daemonset.yaml) defines the daemonset itself.
 It's pretty simple - the container image used is lolwww/test:1.3 - you can use this image or build a new one using the [Dockerfile](https://github.com/lolwww/pro-aks-installer/blob/master/Dockerfile) provided in this repository. 
+
 It contains necessary scripts:
-1. [runOnHost.sh](https://github.com/lolwww/pro-aks-installer/blob/master/runOnHost.sh) copies install.sh and cleanup.sh into host path, 
+- [runOnHost.sh](https://github.com/lolwww/pro-aks-installer/blob/master/runOnHost.sh) copies install.sh and cleanup.sh into host path, 
 changes the permissions and executes install.sh on the worker using nsenter (to execute it in the right namespaces, instead of container namespace)
-2. [runCleanup.sh](https://github.com/lolwww/pro-aks-installer/blob/master/runCleanup.sh) just executes cleanup.sh.
+- [runCleanup.sh](https://github.com/lolwww/pro-aks-installer/blob/master/runCleanup.sh) just executes cleanup.sh.
 Also the daemonset mounts necessary paths to be able to copy scripts to the host and defines preStop: command so that runCleanup.sh is executed before container termination.
 
 So the flow is the following:
