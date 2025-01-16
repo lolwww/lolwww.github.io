@@ -34,7 +34,7 @@ It contains necessary scripts:
 - [runOnHost.sh](https://github.com/lolwww/pro-aks-installer/blob/master/runOnHost.sh) copies install.sh and cleanup.sh into host path, 
 changes the permissions and executes install.sh on the worker using nsenter (to execute it in the right namespaces, instead of container namespace)
 - [runCleanup.sh](https://github.com/lolwww/pro-aks-installer/blob/master/runCleanup.sh) just executes cleanup.sh.
-Also the daemonset mounts necessary paths to be able to copy scripts to the host and defines preStop: command so that runCleanup.sh is executed before container termination.
+Also the daemonset mounts necessary paths to be able to copy scripts to the host and defines preStop: command so that cleanup is executed before the container termination.
 
 So the flow is the following:
 1) daemonset launches a container with image from Dockerfile on every node in the cluster.
