@@ -46,6 +46,6 @@ So the flow is the following:
 The daemonset could be adjusted according to your cluster config and don't forget to replace the %TOKEN% value in proconfigmap.yaml.
 Apply the daemonset like this below and enjoy Ubuntu Pro features on your AKS worker nodes.
 ```console
-; kubectl apply -f ./k8s
+$ kubectl apply -f ./k8s
 ```
 
