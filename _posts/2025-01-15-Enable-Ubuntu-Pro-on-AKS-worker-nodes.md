@@ -37,6 +37,7 @@ changes the permissions and executes install.sh on the worker using nsenter (to 
 Also the daemonset mounts necessary paths to be able to copy scripts to the host and defines preStop: command so that cleanup is executed before the container termination.
 
 So the flow is the following:
+
 1) daemonset launches a container with image from Dockerfile on every node in the cluster.
 (you can define labels here if you only wish some of the hosts are subscribed to Pro)
 
