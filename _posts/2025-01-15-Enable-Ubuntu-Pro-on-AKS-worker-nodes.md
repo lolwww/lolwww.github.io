@@ -39,8 +39,11 @@ Also the daemonset mounts necessary paths to be able to copy scripts to the host
 So the flow is the following:
 1) daemonset launches a container with image from Dockerfile on every node in the cluster.
 (you can define labels here if you only wish some of the hosts are subscribed to Pro)
+
 2) runOnHost.sh is then launched which copies the install and cleanup scripts to the mounted host path, launches install.sh (subscribing host to Pro)
+   
 3) in case of autoscaling event up - daemonset will create a container on a newly added node (subscribing it to Pro)
+   
 4) in case of scaling down - preStop hook will be executed, detaching the node from Pro.
 
 The daemonset could be adjusted according to your cluster config and don't forget to replace the %TOKEN% value in proconfigmap.yaml.
