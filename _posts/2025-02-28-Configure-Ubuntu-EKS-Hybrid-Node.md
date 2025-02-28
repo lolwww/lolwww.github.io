@@ -82,7 +82,7 @@ $ aws ec2 create-vpc --region us-east-2 --cidr-block 10.226.0.0/16
 1.2 Create 2 subnets as required:  
 
 ```console
-$ aws ec2 create-subnet --region us-east-2 --vpc-id vpc-030161cb125878088 --cidr-block 10.226.1.0/24 /
+$ aws ec2 create-subnet --region us-east-2 --vpc-id vpc-030161cb125878088 --cidr-block 10.226.1.0/24 
 --availability-zone us-east-2a</b>
 …
  "SubnetId": "subnet-01ceb7d774e21214e",
