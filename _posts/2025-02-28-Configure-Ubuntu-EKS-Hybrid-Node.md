@@ -38,6 +38,7 @@ As part of this exercise we will replicate exactly the picture below, using the 
 
 <p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
+![image](https://github.com/user-attachments/assets/3a262af0-c25e-4a37-82a6-3f274d34984c)
 
 
  \
@@ -144,10 +145,8 @@ For HA setup with 2 tunnels, just add a second tunnel section to ipsec.conf and 
  \
 
 
-<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image2.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+![image](https://github.com/user-attachments/assets/33513d78-7b31-4268-853b-b69c55d4e853)
 
-
-![alt_text](images/image2.png "image_tooltip")
 
 
 1.13 Create security group for EKS cluster with 443 port open: \
@@ -200,12 +199,9 @@ It is possible also to pre-create an operating system image with nodeadm built-i
 The node should now appear in EKS cluster compute section: \
 It’s marked as ‘not ready’ at the moment as CNI is not configured yet. \
  \
+![image](https://github.com/user-attachments/assets/7b57c389-bc09-4016-bc50-bc8d15b24db1)
 
 
-<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image3.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image3.png "image_tooltip")
  \
  \
 3.7 To install the CNI we will require helm, kubectl and the kubeconfig for the cluster: \
@@ -225,21 +221,17 @@ If Cilium was configured correctly and your Site-to-Site VPN is up, you should s
 
  \
 
+![image](https://github.com/user-attachments/assets/99c16795-77ee-4da7-bdb9-38eb18ef0a83)
 
-<p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image4.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
-
-![alt_text](images/image4.png "image_tooltip")
  \
  \
 At this point your hybrid node should be in Ready state: \
  \
 
+![image](https://github.com/user-attachments/assets/93933c38-03d0-4dfc-880f-218c187a53b3)
 
-<p id="gdcalert5" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image5.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert6">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
-
-![alt_text](images/image5.png "image_tooltip")
  \
  \
 It should also become Ready from kubectl point of view: \
@@ -256,11 +248,9 @@ Expose the deployment and check the status: \
 
  \
 
+![image](https://github.com/user-attachments/assets/d3d13d5b-c1a4-4f51-ab01-dc6c6a58dd5c)
 
-<p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image6.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
-
-![alt_text](images/image6.png "image_tooltip")
  \
  \
   \
