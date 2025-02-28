@@ -82,8 +82,7 @@ $ aws ec2 create-vpc --region us-east-2 --cidr-block 10.226.0.0/16
 1.2 Create 2 subnets as required:  
 
 ```console
-$ aws ec2 create-subnet --region us-east-2 --vpc-id vpc-030161cb125878088 --cidr-block 10.226.1.0/24 
---availability-zone us-east-2a</b>
+$ aws ec2 create-subnet --region us-east-2 --vpc-id vpc-030161cb125878088 --cidr-block 10.226.1.0/24 --availability-zone us-east-2a
 …
  "SubnetId": "subnet-01ceb7d774e21214e",
 …
@@ -255,6 +254,7 @@ $ aws ec2 authorize-security-group-ingress --group-id sg-035e934b7c3f64f3e --ip-
  '[{"IpProtocol": "tcp", "FromPort": 443, "ToPort": 443, "IpRanges": [{"CidrIp": "10.80.0.0/16"}, {"CidrIp": "10.85.0.0/16"}]}]'</b>
 ```
 
+
 Now let’s configure the credentials / authentication part. 
 
 2.1 Before setting up AWS SSM hybrid activations, we must create a Hybrid Nodes IAM role. \
@@ -264,7 +264,8 @@ To save time we will be using a cloudformation template prepared by AWS.
 $ curl -OL 'https://raw.githubusercontent.com/aws/eks-hybrid/refs/heads/main/example/hybrid-ssm-cfn.yaml'
 ```
 
-Create a file with parameters. We will leave them as default. Make sure the arn matches, including your AWS_ACCOUNT_ID and name of the cluster you are planning to use: 
+Create a file with parameters. We will leave them as default. M
+ake sure the arn matches, including your AWS_ACCOUNT_ID and name of the cluster you are planning to use: 
 
 ```console
 $ cat cfn-ssm-parameters.json
@@ -286,7 +287,8 @@ Successfully created/updated stack - hybridnodes-stack
 …
 ```
 
-2.2 Now setup SSM hybrid activation. Check your AWS_ACCOUNT_ID, name of the cluster and region name before applying. As an output, we will get an ActivationCode and ActivationID, which will later be used to connect the hybrid node to the cluster.
+2.2 Now setup SSM hybrid activation. Check your AWS_ACCOUNT_ID, name of the cluster and region name before applying. 
+As an output, we will get an ActivationCode and ActivationID, which will later be used to connect the hybrid node to the cluster.
 
 ```console
 $ aws ssm create-activation --region us-east-2 --default-instance-name eks-hybrid-nodes --description "Activation for EKS hybrid nodes" --iam-role AmazonEKSHybridNodesRole --tags Key=EKSClusterARN,Value=arn:aws:eks:us-east-2:AWS_ACCOUNT_ID:cluster/hybridnodescluster --registration-limit 10 
@@ -337,8 +339,8 @@ EKS cluster "hybridnodescluster" in "us-east-2" region is ready
 ```
 
 3.3 Create the access entry for your cluster for your hybrid node to be able to connect to it. \
-Notice the type is HYBRID_LINUX. \
-Initially I created an entry with the wrong type and had issues during node setup on a later stage.  \
+Notice the type is HYBRID_LINUX. 
+Initially I created an entry with the wrong type and had issues during node setup on a later stage.  
 
 ```console
 $ aws eks create-access-entry --cluster-name hybridnodescluster --principal-arn arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKSHybridNodesRole --type HYBRID_LINUX
@@ -393,10 +395,9 @@ $ sudo ./nodeadm init -c file://nodeconfig.yaml
 ```
 
 The node should now appear in EKS cluster compute section: \
-It’s marked as ‘not ready’ at the moment as CNI is not configured yet. \
+It’s marked as ‘not ready’ at the moment as CNI is not configured yet. 
 
 ![image](https://github.com/user-attachments/assets/7b57c389-bc09-4016-bc50-bc8d15b24db1)
-
 
  
 3.7 To install the CNI we will require helm, kubectl and the kubeconfig for the cluster: 
@@ -409,7 +410,7 @@ $ aws eks update-kubeconfig --region us-east-2 --name hybridnodescluster
 
 3.8 Now let's configure and install the CNI.  \
 Double-check that your Site-to-Site VPN is up and running at this step. \
-CNI will not come up if there is a connectivity issue with EKS cluster. \
+CNI will not come up if there is a connectivity issue with EKS cluster. 
 
 ```console
 $ cat cilium.yaml
