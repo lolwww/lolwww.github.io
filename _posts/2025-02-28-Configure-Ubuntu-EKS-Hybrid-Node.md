@@ -72,13 +72,14 @@ We will use Cilium in this guide, but the configuration between the two is very 
 Let’s start with the networking part. 
 
 1.1 Create a VPC with AWS cli: 
+```
 <pre>
 <b>$ aws ec2 create-vpc --region us-east-2 --cidr-block 10.226.0.0/16</b>
 …
 "VpcId": "vpc-030161cb125878088",
 …
 </pre>
-
+```
 
 1.2 Create 2 subnets as required:  
 
