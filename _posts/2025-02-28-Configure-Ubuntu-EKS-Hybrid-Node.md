@@ -250,8 +250,7 @@ $ aws ec2 create-security-group --group-name hybdircluster --description "securi
 "GroupId": "sg-035e934b7c3f64f3e"
 …
 
-$ aws ec2 authorize-security-group-ingress --group-id sg-035e934b7c3f64f3e --ip-permissions /
- '[{"IpProtocol": "tcp", "FromPort": 443, "ToPort": 443, "IpRanges": [{"CidrIp": "10.80.0.0/16"}, {"CidrIp": "10.85.0.0/16"}]}]'</b>
+$ aws ec2 authorize-security-group-ingress --group-id sg-035e934b7c3f64f3e --ip-permissions '[{"IpProtocol": "tcp", "FromPort": 443, "ToPort": 443, "IpRanges": [{"CidrIp": "10.80.0.0/16"}, {"CidrIp": "10.85.0.0/16"}]}]'</b>
 ```
 
 
@@ -479,7 +478,7 @@ deployment.apps/nginx-deployment created
 Expose the deployment and check the status: 
 
 ```console
-$ kubectl expose deployment.apps/nginx-deployment --port=80 --target-port=80 --type NodePort /
+$ kubectl expose deployment.apps/nginx-deployment --port=80 --target-port=80 --type NodePort 
 service/nginx-deployment exposed
 
 $ kubectl get all 
@@ -491,14 +490,14 @@ Now if we curl the the appropriate port from the hybrid node, we should see and 
 
 ```console
 $ curl localhost:30445
-<h1>Welcome to nginx!</h1>
-<p>If you see this page, the nginx web server is successfully installed and
-working. Further configuration is required.</p>
-<p>For online documentation and support please refer to
-<a href="http://nginx.org/">nginx.org</a>.<br/>
+Welcome to nginx!
+<pIf you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.
+For online documentation and support please refer to
+nginx.org
 Commercial support is available at
-<a href="http://nginx.com/">nginx.com</a>.</p>
-<p><em>Thank you for using nginx.</em></p>
+nginx.com
+Thank you for using nginx
 ```
 
 We’ve been able to setup Site-to-Site VPN with AWS, configure networking and credentials, launch the EKS cluster and successfully connect a Hybrid worker node running Ubuntu 22.04 to it.
