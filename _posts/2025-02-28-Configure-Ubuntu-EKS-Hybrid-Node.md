@@ -505,19 +505,6 @@ Now if we curl the the appropriate port from the hybrid node, we should see and 
 
 <pre>
 <b>$ curl localhost:30445</b>
-<!DOCTYPE html>
-<html>
-<head>
-<title>Welcome to nginx!</title>
-<style>
-	body {
-    	width: 35em;
-    	margin: 0 auto;
-    	font-family: Tahoma, Verdana, Arial, sans-serif;
-	}
-</style>
-</head>
-<body>
 <h1>Welcome to nginx!</h1>
 <p>If you see this page, the nginx web server is successfully installed and
 working. Further configuration is required.</p>
@@ -526,8 +513,5 @@ working. Further configuration is required.</p>
 Commercial support is available at
 <a href="http://nginx.com/">nginx.com</a>.</p>
 <p><em>Thank you for using nginx.</em></p>
-</body>
-</html>
 </pre>
-
 We’ve been able to setup Site-to-Site VPN with AWS, configure networking and credentials, launch the EKS cluster and successfully connect a Hybrid worker node running Ubuntu 22.04 to it.
