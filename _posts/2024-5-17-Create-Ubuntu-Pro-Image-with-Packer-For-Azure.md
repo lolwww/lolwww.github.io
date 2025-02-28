@@ -6,6 +6,7 @@ title: How to create a golden image of Ubuntu Pro with Packer for Azure
 Based on the [tutorial](https://learn.microsoft.com/en-us/azure/virtual-machines/linux/build-image-with-packer) from Microsoft.
 Note: Packer version **1.8.1** or above is needed for creating images
 from **Ubuntu** **22.04** - Jammy Jellyfish or newer.
+
 For this tutorial I will be using Packer v**1.10.3**.
 
 **Creating Azure Credentials**
