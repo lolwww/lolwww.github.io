@@ -88,8 +88,7 @@ $ aws ec2 create-subnet --region us-east-2 --vpc-id vpc-030161cb125878088 --cidr
  "SubnetId": "subnet-01ceb7d774e21214e",
 …
 
-$ aws ec2 create-subnet --region us-east-2 --vpc-id vpc-030161cb125878088 --cidr-block 10.226.2.0/24 /
- --availability-zone us-east-2b
+$ aws ec2 create-subnet --region us-east-2 --vpc-id vpc-030161cb125878088 --cidr-block 10.226.2.0/24 --availability-zone us-east-2b
 …
 "SubnetId": "subnet-01c18a7ffa473fe1e",
 …
@@ -103,8 +102,7 @@ $ aws ec2 create-internet-gateway --region us-east-2
 …
  "InternetGatewayId": "igw-0479a9f3db641f9dd",
 …
-$ aws ec2 attach-internet-gateway --internet-gateway-id igw-0479a9f3db641f9dd --vpc-id vpc-030161cb125878088 /
- --region us-east-2
+$ aws ec2 attach-internet-gateway --internet-gateway-id igw-0479a9f3db641f9dd --vpc-id vpc-030161cb125878088 --region us-east-2
 ```
 
 
@@ -128,8 +126,7 @@ $ aws ec2 create-customer-gateway --region us-east-2 --type ipsec.1 --public-ip 
 
 1.6 Create a VPN connection using VPN gateway and customer gateway IDs: 
 ```console
-$ aws ec2 create-vpn-connection --region us-east-2  --vpn-gateway-id vgw-0b6e5f5f0f1d7f7ff --type ipsec.1 /
- --customer-gateway-id cgw-02ad11ff10c2b161a --options '{"StaticRoutesOnly": true}' 
+$ aws ec2 create-vpn-connection --region us-east-2  --vpn-gateway-id vgw-0b6e5f5f0f1d7f7ff --type ipsec.1 --customer-gateway-id cgw-02ad11ff10c2b161a --options '{"StaticRoutesOnly": true}' 
 …
 "VpnConnectionId": "vpn-0d87031ec374c6c79"
 …
@@ -148,8 +145,7 @@ $ aws ec2 describe-route-tables --filters "Name=vpc-id,Values=vpc-030161cb125878
 1.8 Now let’s create a route to the internet through internet gateway we created earlier: 
 
 ```console
-$ aws ec2 create-route --route-table-id rtb-0d41e058e5d2a64ed --destination-cidr-block 0.0.0.0/0 /
- --gateway-id igw-0479a9f3db641f9dd
+$ aws ec2 create-route --route-table-id rtb-0d41e058e5d2a64ed --destination-cidr-block 0.0.0.0/0 --gateway-id igw-0479a9f3db641f9dd
 ```
 
 1.9 Enable route propagation through our VPN gateway: 
@@ -172,8 +168,7 @@ First download VPN configuration file from AWS. \
 Notice the vpn-connection-device-type-id - the ID I’m specifying is of ‘Generic' device type which will work with Strongswan.  
 
 ```console
-$ aws ec2 get-vpn-connection-device-sample-configuration --vpn-connection-id vpn-0f0cde758878abe4c /
- --vpn-connection-device-type-id 9005b6c1
+$ aws ec2 get-vpn-connection-device-sample-configuration --vpn-connection-id vpn-0f0cde758878abe4c --vpn-connection-device-type-id 9005b6c1
 ```
 
 1.12 On our on-prem gateway (machine2), install and configure the VPN. \
@@ -251,8 +246,7 @@ For HA setup with 2 tunnels, just add a second tunnel section to ipsec.conf and 
 1.13 Create security group for EKS cluster with 443 port open: 
 
 ```console
-$ aws ec2 create-security-group --group-name hybdircluster --description "security group for hybrid nodes" /
- --vpc-id vpc-030161cb125878088
+$ aws ec2 create-security-group --group-name hybdircluster --description "security group for hybrid nodes" --vpc-id vpc-030161cb125878088
 …
 "GroupId": "sg-035e934b7c3f64f3e"
 …
@@ -286,8 +280,7 @@ $ cat cfn-ssm-parameters.json
 Deploy the cloudformation template to finish role setup: 
 
 ```console
-$ aws cloudformation deploy --stack-name hybridnodes-stack --template-file hybrid-ssm-cfn.yaml /
- --parameter-overrides file://cfn-ssm-parameters.json --capabilities CAPABILITY_NAMED_IAM 
+$ aws cloudformation deploy --stack-name hybridnodes-stack --template-file hybrid-ssm-cfn.yaml --parameter-overrides file://cfn-ssm-parameters.json --capabilities CAPABILITY_NAMED_IAM 
 …
 Successfully created/updated stack - hybridnodes-stack
 …
@@ -296,10 +289,7 @@ Successfully created/updated stack - hybridnodes-stack
 2.2 Now setup SSM hybrid activation. Check your AWS_ACCOUNT_ID, name of the cluster and region name before applying. As an output, we will get an ActivationCode and ActivationID, which will later be used to connect the hybrid node to the cluster.
 
 ```console
-$ aws ssm create-activation --region us-east-2 --default-instance-name eks-hybrid-nodes --description /
- "Activation for EKS hybrid nodes" --iam-role AmazonEKSHybridNodesRole /
- --tags Key=EKSClusterARN,Value=arn:aws:eks:us-east-2:AWS_ACCOUNT_ID:cluster/hybridnodescluster  /
- --registration-limit 10 
+$ aws ssm create-activation --region us-east-2 --default-instance-name eks-hybrid-nodes --description "Activation for EKS hybrid nodes" --iam-role AmazonEKSHybridNodesRole --tags Key=EKSClusterARN,Value=arn:aws:eks:us-east-2:AWS_ACCOUNT_ID:cluster/hybridnodescluster --registration-limit 10 
 {
 "ActivationId": "xxxx",
 "ActivationCode": "zzzz"
@@ -351,8 +341,7 @@ Notice the type is HYBRID_LINUX. \
 Initially I created an entry with the wrong type and had issues during node setup on a later stage.  \
 
 ```console
-$ aws eks create-access-entry --cluster-name hybridnodescluster /
- --principal-arn arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKSHybridNodesRole --type HYBRID_LINUX
+$ aws eks create-access-entry --cluster-name hybridnodescluster --principal-arn arn:aws:iam::AWS_ACCOUNT_ID:role/AmazonEKSHybridNodesRole --type HYBRID_LINUX
 …
 {
 	"accessEntry": {
