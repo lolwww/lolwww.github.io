@@ -4,9 +4,7 @@ title: How to use Juju with Microsoft Azure
 ---
 
 Based on the Juju [documentation](https://juju.is/docs/juju/microsoft-azure) and personal experience.
-
 Juju version used is 3.6-beta2.
-
 Generally there are 2 ways to make Juju work with Azure (for it to be able to create, delete, modify resources on Azure).
 Each of them has some variations:
 
