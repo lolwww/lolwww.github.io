@@ -13,35 +13,32 @@ You will also be able then to host workloads on both cloud (AWS-managed) and on-
  \
 Let’s have a look at what we require to set up a hybrid node. \
  \
-**Prerequisites:** \
-- AWS account with permissions to create EKS cluster, VPCs, Subnets etc. \
-- on-prem server/VM machine 1 which will become a hybrid worker node. \
-At least 1 vCPU and 1GiB RAM. Ubuntu 22.04.5 LTS.  \
-- on-prem server/VM machine 2 which will become a gateway for site-to-site connectivity. \
-1 vCPU and 1GiB RAM would do for testing too. Ubuntu 22.04.5 LTS.  \
-- router which machines 1 and 2 are connected to. \
- \
-Key configuration parts and decisions: \
- \
-**1) Networking setup:** \
+**Prerequisites:** 
+- AWS account with permissions to create EKS cluster, VPCs, Subnets etc. 
+- on-prem server/VM machine 1 which will become a hybrid worker node. 
+At least 1 vCPU and 1GiB RAM. Ubuntu 22.04.5 LTS.  
+- on-prem server/VM machine 2 which will become a gateway for site-to-site connectivity. 
+1 vCPU and 1GiB RAM would do for testing too. Ubuntu 22.04.5 LTS.  
+- router which machines 1 and 2 are connected to. 
+
+Key configuration parts and decisions: 
+
+**1) Networking setup:** 
+
 Essentially there should be a stable communication channel between Hybrid node and Kubernetes control plane living in AWS.  \
-AWS documentation suggest 3 ways of achieving that: \
-- [Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) for relatively small workloads \
-- [AWS Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html) for high-performance connectivity, large data volumes etc \
-- own VPN solution \
- \
+AWS documentation suggest 3 ways of achieving that: 
+- [Site-to-Site VPN](https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html) for relatively small workloads 
+- [AWS Direct Connect](https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html) for high-performance connectivity, large data volumes etc 
+- own VPN solution 
+
+  
 We will be using **Site-to-Site VPN** as part of this setup. \
 On the AWS side we would require to create a VPC with a minimum of 2 subnets and configure the routing table for them, create internet gateway, VPN and customer gateways and finally VPN connection.  \
 On the on-prem side, we need to configure VPN with strongSwan, 2 subnets and a routing table as well. \
-As part of this exercise we will replicate exactly the picture below, using the same CIDRs. \
-
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
+As part of this exercise we will replicate exactly the picture below, using the same CIDRs. 
 
 ![image](https://github.com/user-attachments/assets/3a262af0-c25e-4a37-82a6-3f274d34984c)
 
-
- \
  \
 The following has already been configured on the on-prem environment side, so I’m not documenting this part, as it is specific to the on-prem environment: \
  \
@@ -55,22 +52,22 @@ Subnet for nodes: 10.80.0.0/16  \
 Subnet for pods: 10.85.0.0/16  \
  \
 Route table: \
-Route 10.226.0.0/16 - via 10.80.0.4 \
- \
-**2) Credentials/authentication: ** \
+Route 10.226.0.0/16 - via 10.80.0.4 
+ 
+**2) Credentials/authentication:** 
+
 Hybrid nodes need a way to securely authenticate with the specific Amazon EKS cluster. \
-AWS suggest 2 following ways: \
-- [AWS IAM Roles Anywhere](https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-creds.html#_setup_iam_roles_anywhere) - (if you have existing Public Key Infrastructure (PKI) with a Certificate Authority (CA) and certificates for your on-premises environment \
-- [AWS SSM hybrid activations](https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-creds.html#_setup_ssm_hybrid_activations) - if you don’t have PKI setup \
+AWS suggest 2 following ways: 
+- [AWS IAM Roles Anywhere](https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-creds.html#_setup_iam_roles_anywhere) - (if you have existing Public Key Infrastructure (PKI) with a Certificate Authority (CA) and certificates for your on-premises environment 
+- [AWS SSM hybrid activations](https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-creds.html#_setup_ssm_hybrid_activations) - if you don’t have PKI setup 
  \
-We will be using SSM hybrid activations as a simpler way without the need to maintain PKI infrastructure.  \
- \
-**3) EKS cluster and CNI configuration:** \
-AWS supports Cilium and Calico for use with hybrid nodes. \
-We will use Cilium in this guide, but the configuration between the two is very similar, so it could be easily adopted for Calico as well. \
-** \
-Configuration steps.** \
-Let’s start with the networking part.  \
+We will be using SSM hybrid activations as a simpler way without the need to maintain PKI infrastructure.  
+  
+**3) EKS cluster and CNI configuration:** 
+AWS supports Cilium and Calico for use with hybrid nodes. 
+We will use Cilium in this guide, but the configuration between the two is very similar, so it could be easily adopted for Calico as well. 
+** Configuration steps.** 
+Let’s start with the networking part.  
  \
 1.1 Create a VPC with AWS cli: \
 
