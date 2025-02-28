@@ -3,7 +3,6 @@ layout: post
 title: How to configure Ubuntu EKS Hybrid node.
 ---
 How to configure Ubuntu EKS Hybrid node.
-
 The purpose of this document is to test the enablement of an on-premise Ubuntu server as AWS Hybrid node with EKS cluster. \
 Based on the [AWS guide](https://docs.aws.amazon.com/eks/latest/userguide/hybrid-nodes-overview.html). \
  \
